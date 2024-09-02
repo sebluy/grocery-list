@@ -1,10 +1,12 @@
 <script setup>
 
-import {defineProps} from 'vue';
+import {ref} from "vue";
 
 const props = defineProps({
     items: Array,
 });
+
+const mode = ref('plain');
 
 </script>
 
@@ -17,9 +19,15 @@ const props = defineProps({
         <template v-slot:default="{ isActive }">
             <v-card title="Export">
                 <v-card-text>
-                    <div v-for="item in items">
-                        {{ item.name }}
-                    </div>
+                    <v-btn-toggle v-model="mode"
+                                  class="mb-2" color="deep-purple" max-width="400" variant="outlined" mandatory>
+                        <v-btn density="compact" size="x-small" value="plain">Plain</v-btn>
+                        <v-btn density="compact" size="x-small" value="json">JSON</v-btn>
+                    </v-btn-toggle>
+
+                    <pre v-if="mode === 'json'">{{ JSON.stringify(items, null, 4) }}</pre>
+                    <pre v-else>{{ items.map(i => i.name).join("\n") }}</pre>
+
                 </v-card-text>
 
                 <v-card-actions>

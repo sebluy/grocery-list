@@ -64,7 +64,10 @@ export default class Item {
     }
 
     static fromJson(json) {
-        return Object.assign(new Item(undefined), JSON.parse(json));
+        const item = Object.assign(new Item(undefined), JSON.parse(json));
+        item.history = item.history.map((d) => dayjs(d));
+        item.predictNext();
+        return item;
     }
 
 }

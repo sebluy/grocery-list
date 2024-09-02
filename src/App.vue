@@ -72,7 +72,7 @@ onMounted(() => {
             items.push(Item.fromJson(localStorage.getItem(key)));
         }
     }
-})
+});
 
 // toggle
 // create
