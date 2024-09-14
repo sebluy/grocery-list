@@ -1,7 +1,7 @@
 <script setup>
 
 import {computed, onMounted, reactive, ref} from "vue";
-import {orderBy} from "lodash";
+import {orderBy, upperFirst} from "lodash";
 import Item from "./item.js";
 import Export from "@/components/Export.vue";
 import Import from "@/components/Import.vue";
@@ -11,11 +11,13 @@ const items = reactive([]);
 const newItem = ref('');
 const sort = ref('due');
 
+const nameSorter = (item) => item.name.toLowerCase();
+
 const sortedItems = computed(() => {
     if (sort.value === 'due') {
-        return orderBy(items, ['active', 'next', 'name'], ['desc', 'asc', 'asc']);
+        return orderBy(items, ['active', 'next', nameSorter], ['desc', 'asc', 'asc']);
     } else {
-        return orderBy(items, ['active', 'name', 'name'], ['desc', 'asc', 'asc']);
+        return orderBy(items, ['active', nameSorter], ['desc', 'asc']);
     }
 });
 
@@ -98,7 +100,7 @@ onMounted(() => {
                          @click="toggleItem(item)">
                 <div class="d-flex align-center">
                     <span class="flex-grow-1 ma-4" :class="{'text-decoration-line-through': !item.active}">
-                        {{ item.name }}
+                        {{ upperFirst(item.name) }}
                     </span>
                     <v-badge class="ma-4" v-if="!item.active && item.next" :content="item.next" color="deep-purple">
                         <v-icon icon="mdi-calendar"/>
