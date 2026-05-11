@@ -20,7 +20,7 @@ const importItems = (isActive) => {
         </template>
 
         <template v-slot:default="{ isActive }">
-            <v-card title="Import" subtitle="Enter a list of items seperated by newlines">
+            <v-card title="Import" subtitle="Enter a list of items separated by newlines">
                 <v-card-text>
                     <v-textarea v-model="text"/>
                 </v-card-text>

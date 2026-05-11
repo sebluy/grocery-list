@@ -26,7 +26,7 @@ const mode = ref('plain');
                     </v-btn-toggle>
 
                     <pre v-if="mode === 'json'">{{ JSON.stringify(items, null, 4) }}</pre>
-                    <pre v-else>{{ items.map(i => i.name).join("\n") }}</pre>
+                    <pre v-else>{{ items.map(i => i.name()).toSorted().join("\n") }}</pre>
 
                 </v-card-text>
 

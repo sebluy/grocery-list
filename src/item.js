@@ -1,21 +1,24 @@
 import dayjs from "dayjs";
-import {last, mean} from "lodash";
+import {last, mean, startCase, toLower} from "lodash";
 
 export default class Item {
 
-    name;
     active;
     history;
 
     constructor(name, history = []) {
-        this.name = name;
+        this.key = toLower(name)
         this.active = true;
         this.history = history;
         this.predictNext();
     }
 
-    key() {
-        return 'groceries-item-' + this.name.toLowerCase();
+    name() {
+        return startCase(this.key)
+    }
+
+    storageKey() {
+        return 'groceries-item-' + this.key;
     }
 
     toggle() {
@@ -65,6 +68,12 @@ export default class Item {
 
     static fromJson(json) {
         const item = Object.assign(new Item(undefined), JSON.parse(json));
+
+        if (typeof item.name === 'string') {
+            item.key = toLower(item.name)
+            delete item.name
+        }
+
         item.history = item.history.map((d) => dayjs(d));
         item.predictNext();
         return item;
